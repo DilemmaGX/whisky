@@ -39,11 +39,7 @@ jobs:
           if [ -f "Welcome.md" ]; then
             cp Welcome.md quartz/content/index.md
           else
-            cat > quartz/content/index.md <<'EOF'
-            # whisky
-
-            Welcome to whisky.
-            EOF
+            printf "# whisky\n\nWelcome to whisky.\n" > quartz/content/index.md
           fi
 
           if [ -d "wiki" ]; then
