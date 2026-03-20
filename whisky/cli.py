@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 
 from .config import load_config
+from .collab_protocol import build_structured_task_format
 from .issue_parser import issue_from_event, issue_from_json
 from .logging_utils import build_logger, sanitize_secret
 from .pipeline import run_pipeline
@@ -51,11 +52,15 @@ def cmd_run(args: argparse.Namespace) -> int:
     else:
         issue = issue_from_event(Path(args.event_path))
     result = run_pipeline(issue=issue, config=config)
+    primary_topic = result.topics[0] if result.topics else ""
+    primary_file = result.file_paths[0] if result.file_paths else ""
     output = {
         "should_generate": str(result.should_generate).lower(),
         "issue_number": result.issue_number,
-        "topic": result.topic,
-        "file_path": result.file_path,
+        "topic": primary_topic,
+        "file_path": primary_file,
+        "topics": ",".join(result.topics),
+        "file_paths": ",".join(result.file_paths),
         "summary": result.summary.replace("\n", " "),
     }
     if args.github_output:
@@ -79,6 +84,11 @@ def cmd_assist_validate(args: argparse.Namespace) -> int:
     text = Path(args.file).read_text(encoding="utf-8")
     invalid = api.validate_internal_links(text)
     print(json.dumps({"invalid_links": invalid}, ensure_ascii=False))
+    return 0
+
+
+def cmd_assist_protocol(args: argparse.Namespace) -> int:
+    print(build_structured_task_format())
     return 0
 
 
@@ -109,6 +119,9 @@ def build_parser() -> argparse.ArgumentParser:
     validate = assist_sub.add_parser("validate")
     validate.add_argument("--file", required=True)
     validate.set_defaults(func=cmd_assist_validate)
+
+    protocol = assist_sub.add_parser("protocol")
+    protocol.set_defaults(func=cmd_assist_protocol)
     return parser
 
 

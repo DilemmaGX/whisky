@@ -36,7 +36,13 @@ jobs:
           rm -rf quartz/content/*
           mkdir -p quartz/content
 
-          if [ -f "Welcome.md" ]; then
+          if [ -d "site" ]; then
+            rsync -av site/ quartz/content/
+          fi
+
+          if [ -f "site/index.md" ]; then
+            cp site/index.md quartz/content/index.md
+          elif [ -f "Welcome.md" ]; then
             cp Welcome.md quartz/content/index.md
           else
             printf "# whisky\n\nWelcome to whisky.\n" > quartz/content/index.md

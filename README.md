@@ -7,7 +7,9 @@ Repository: `github.com/DilemmaGX/whisky`
 ## What this project does
 
 - Classifies whether an Issue is a wiki-entry request
-- Generates a structured wiki draft with a writer agent
+- Plans one or many entry tasks from a single issue
+- Collects structured research packets with references
+- Generates structured wiki drafts with operation support (`create`, `update`, `remake`)
 - Runs content and format review agents
 - Revises once when review feedback fails
 - Writes output to `wiki/*.md`
@@ -22,6 +24,7 @@ Repository: `github.com/DilemmaGX/whisky`
 - `.github/workflows/pr-labeler.yml`: PR labels based on changed files
 - `whisky/`: CLI, agents, pipeline, DeepSeek integration
 - `roles/`: detailed role specifications
+- `site/`: custom homepage and site-level pages
 - `templates/wiki/`: article templates
 - `wiki/`: generated entries
 
@@ -40,6 +43,10 @@ Repository: `github.com/DilemmaGX/whisky`
 
 ```bash
 python -m whisky.cli assist outline --topic "Open Source" --sections 8
+```
+
+```bash
+python -m whisky.cli assist protocol
 ```
 
 3. Create a local issue payload file (for example `issue.local.json`) and run:
@@ -74,8 +81,10 @@ When opening **Wiki Entry Request**, provide:
 
 - **Topic**: one clear title (for example: `Open Source`)
 - **Entry type**: `concept`, `technology`, `biography`, or `general`
+- **Operation**: `create`, `update`, or `remake`
 - **Scope and required sections**: must-have sections and exclusions
 - **Source hints**: official docs, standards, reports, or trusted references
+- **Structured multi-entry tasks (JSON)** when one issue should generate multiple entries
 
 ### 3) Label and triage behavior
 
@@ -112,9 +121,11 @@ The workflow automatically uses `WHISKY_PR_TOKEN` when present, otherwise falls 
 1. You open a **Wiki Entry Request** issue.
 2. Triage workflow adds labels.
 3. Multi-agent pipeline classifies and drafts content.
-4. A PR is created on an `auto/wiki-<issue_number>` branch.
-5. Humans review factual quality and formatting.
-6. After merge, `deploy-pages.yml` publishes to GitHub Pages.
+4. Planner creates one or many entry tasks.
+5. Research collector builds references for each entry.
+6. A PR is created on an `auto/wiki-<issue_number>` branch.
+7. Humans review factual quality and formatting.
+8. After merge, `deploy-pages.yml` publishes to GitHub Pages.
 
 ### 5) How to improve draft quality
 
@@ -147,6 +158,8 @@ Minimal `issue.local.json` shape:
 
 - Orchestrator: routing and workflow control
 - Issue Classifier: request detection and topic extraction
+- Task Planner: converts one issue into a flexible task graph
+- Research Collector: gathers source-ready reference packets
 - Wiki Writer: draft generation
 - Content Reviewer: factual and structural checks
 - Format Reviewer: Obsidian Markdown checks

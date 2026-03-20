@@ -12,9 +12,20 @@ body:
   - type: input
     id: topic
     attributes:
-      label: Topic
-      description: Main wiki topic title.
+      label: Primary topic
+      description: Main wiki topic title. For multiple entries, use the structured task block below.
       placeholder: Open Source
+    validations:
+      required: true
+  - type: dropdown
+    id: operation
+    attributes:
+      label: Operation
+      description: Choose how content should be handled.
+      options:
+        - create
+        - update
+        - remake
     validations:
       required: true
   - type: dropdown
@@ -42,6 +53,43 @@ body:
       label: Source hints
       description: Add links or source categories to improve accuracy.
       placeholder: Official docs, standards bodies, foundation reports, peer-reviewed papers.
+    validations:
+      required: false
+  - type: textarea
+    id: structured_tasks
+    attributes:
+      label: Structured multi-entry tasks (JSON, optional)
+      description: Use this for one issue that manages multiple entries.
+      value: |
+        {
+          "global_objective": "Create and update wiki entries",
+          "tasks": [
+            {
+              "topic": "Open Source",
+              "operation": "create",
+              "entry_type": "concept",
+              "scope": "Definition, history, licenses, and governance.",
+              "source_hints": ["OSI", "Linux Foundation"],
+              "related_entries": ["Software Licensing"],
+              "research_tasks": [
+                {
+                  "query": "Open Source Definition",
+                  "purpose": "Primary source definition",
+                  "source_hints": ["official standards body"]
+                }
+              ]
+            },
+            {
+              "topic": "Software Licensing",
+              "operation": "update",
+              "entry_type": "technology",
+              "scope": "Refresh with modern compliance and tooling.",
+              "source_hints": ["SPDX", "official docs"],
+              "related_entries": ["Open Source"],
+              "research_tasks": []
+            }
+          ]
+        }
     validations:
       required: false
   - type: checkboxes
