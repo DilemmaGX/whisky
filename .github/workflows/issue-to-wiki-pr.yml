@@ -3,7 +3,6 @@ name: Issue to Wiki PR
 on:
   issues:
     types:
-      - opened
       - reopened
       - labeled
   workflow_dispatch:

@@ -201,6 +201,8 @@
   },
   "active": "6dee2487a3d59643",
   "lastOpenFiles": [
+    "whisky/__pycache__/deepseek_client.cpython-312.pyc.2417671689808",
+    "issue.local.json",
     "wiki/open-source.md",
     "wiki",
     "whisky/__pycache__/obsidian.cpython-312.pyc.2281273712112",
@@ -211,7 +213,6 @@
     "whisky/agents/__pycache__/classifier.cpython-312.pyc.2281241936256",
     "whisky/__pycache__/pipeline.cpython-312.pyc.2281241430032",
     "whisky/__pycache__/logging_utils.cpython-312.pyc.2281240753776",
-    "examples/open-source-issue.json",
     "README.md",
     "roles/project-structure.md",
     "roles/format-reviewer.md",

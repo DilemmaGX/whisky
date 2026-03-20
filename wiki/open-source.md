@@ -2,6 +2,7 @@
 title: Open Source
 tags:
   - wiki
+  - draft
   - software
   - licensing
   - collaboration
@@ -11,53 +12,55 @@ status: draft
 # Open Source
 
 ## Definition
-
-Open source refers to a software development and distribution model where the source code is made publicly accessible under a license that grants users the rights to study, modify, and distribute the software to anyone for any purpose. The term is formally defined by the Open Source Initiative (OSI) through the [Open Source Definition](https://opensource.org/osd), which outlines ten criteria including free redistribution, access to source code, permission for derived works, and non-discrimination against persons or fields of endeavor. It is distinct from, though often overlaps with, the related concept of "free software," which emphasizes user freedoms and ethical considerations.
+Open source refers to software for which the original source code is made freely available and may be redistributed and modified under terms defined by its license. The term extends beyond software to denote a collaborative development model where a product's design is publicly accessible for anyone to inspect, modify, and enhance. The Open Source Initiative (OSI) maintains the Open Source Definition, a set of ten criteria that licenses must meet to be considered truly open source, including free redistribution, access to source code, permission for derived works, and non-discrimination against persons or fields of endeavor.
 
 ## Background and Evolution
-
-The principles of collaborative, shared software development predate the term "open source." In computing's early decades, software was often shared freely among academic and corporate researchers. The rise of proprietary software in the 1970s and 1980s prompted a formal counter-movement.
-
-*   **1980s: The Free Software Foundation:** Founded by Richard Stallman in 1985, the FSF championed the concept of "free software" (as in freedom, not price) and created the GNU General Public License (GPL) to legally enforce these freedoms via "copyleft."
-*   **1990s: The Rise of Linux and the "Open Source" Label:** The 1991 creation of the Linux kernel by Linus Torvalds, combined with existing GNU tools, created a complete, functional free operating system. In 1998, the term "open source" was coined and the Open Source Initiative (OSI) was founded to promote the model to the business world, focusing on practical benefits like quality and reliability.
-*   **2000s-Present: Mainstream Adoption and Expansion:** The 2000s saw massive commercial investment (e.g., IBM in Linux, Google's Android). The proliferation of permissive licenses (MIT, Apache) facilitated use in commercial products. The advent of platforms like GitHub (2008) drastically lowered collaboration barriers. Today, open source is the foundation of modern software infrastructure, including cloud computing, big data (Hadoop, Spark), web development (React, Node.js), and artificial intelligence (TensorFlow, PyTorch).
+The concept of sharing software source code was common in academia and corporate research in the early computing era. The modern open source movement is often traced to the 1980s as a reaction to the rise of proprietary software and restrictive licensing. Key milestones include:
+*   The launch of the GNU Project (1983) and the Free Software Foundation (1985) by Richard Stallman, which emphasized user freedoms ("free as in speech").
+*   The creation of the GNU General Public License (GPL) in 1989, a copyleft license ensuring software freedoms are preserved in derivative works.
+*   The release of the Linux kernel (1991) by Linus Torvalds, which, combined with GNU software, created a complete, freely available operating system.
+*   The coining of the term "open source" in 1998 and the founding of the Open Source Initiative (OSI), which framed the development model in pragmatic, business-friendly terms to encourage broader commercial adoption.
+*   The proliferation of open source in enterprise infrastructure (e.g., Apache HTTP Server, Kubernetes), programming languages (e.g., Python, JavaScript), and end-user applications (e.g., Firefox, VLC).
 
 ## Key Concepts
-
-*   **Open Source Licenses:** Legal instruments that govern the use, modification, and distribution of the source code. They fall into two primary categories:
-    *   **Copyleft (or Reciprocal) Licenses:** Require that derivative works be distributed under the same license terms. The GNU GPL is the most prominent example. Strong copyleft (GPLv3) applies to software that links to the code, while weak copyleft (LGPL, MPL) may allow linking with proprietary code under certain conditions.
-    *   **Permissive Licenses:** Impose minimal restrictions, typically requiring only attribution and sometimes a disclaimer of warranty. They allow code to be incorporated into proprietary, closed-source projects. Common examples include the MIT License, Apache License 2.0, and BSD licenses.
-*   **Governance Models:** The structures that guide how an open source project is managed and how decisions are made.
-    *   **Benevolent Dictator for Life (BDFL):** A single founder or leader (e.g., Linus Torvalds for Linux, Guido van Rossum for Python historically) has final authority over the project's direction.
-    *   **Meritocracy:** Contributors who demonstrate consistent, valuable work earn increased responsibility and decision-making power (e.g., the Apache Software Foundation's model).
-    *   **Foundation-led:** A non-profit foundation (e.g., Linux Foundation, Apache Software Foundation, Cloud Native Computing Foundation) provides neutral governance, legal support, and funding for a project or a portfolio of projects.
-    *   **Corporate-backed:** A single company employs the core contributors and drives the project's primary development (e.g., React by Meta, Angular by Google). This can raise concerns about control and project sustainability.
-*   **Contributor Workflow:** Most modern projects use a version control system (like Git) and a platform like GitHub or GitLab. The typical workflow involves forking a repository, making changes in a branch, and submitting a pull request (PR) or merge request (MR) for review and integration by maintainers.
+*   **Open Source Licenses:** Legal instruments that govern the use, modification, and distribution of the software. They generally fall into two families:
+    *   **Copyleft (or Reciprocal) Licenses:** Require that derivative works be distributed under the same license terms. Examples: GNU GPL, AGPL, Mozilla Public License (MPL). Aims to preserve openness downstream.
+    *   **Permissive Licenses:** Impose minimal restrictions, allowing code to be incorporated into proprietary derivative works with minimal obligations. Examples: MIT License, Apache License 2.0, BSD licenses.
+*   **Governance Models:** The structures that guide project decision-making and contribution.
+    *   **Benevolent Dictator for Life (BDFL):** A single founder or leader retains final authority over the project (e.g., early Python, Linux).
+    *   **Meritocracy:** Influence is earned through recognized contributions and technical expertise (e.g., Apache Software Foundation projects).
+    *   **Foundation-led:** A non-profit foundation (e.g., Linux Foundation, Apache Software Foundation, Eclipse Foundation) provides neutral governance, legal support, and funding.
+    *   **Corporate-backed:** A single company employs the core developers and drives the project's roadmap (e.g., React, Google's Angular).
+*   **Contributor Workflow:** Typical processes include forking a repository, making changes, and submitting a pull request (or merge request) for review and integration into the main codebase.
+*   **FOSS:** An umbrella term encompassing both **F**ree and **O**pen **S**ource **S**oftware, acknowledging the philosophical differences between the "free software" movement (focused on user liberty) and the "open source" initiative (focused on practical development advantages).
 
 ## Typical Applications
-
-Open source software is ubiquitous across all technology sectors:
-*   **Operating Systems:** Linux distributions (Ubuntu, Red Hat), Android, BSD.
-*   **Web Development:** Servers (Apache, Nginx), frameworks (React, Vue.js, Django, Ruby on Rails), databases (PostgreSQL, MySQL).
-*   **Cloud & Infrastructure:** Containerization (Docker, Kubernetes), orchestration (Terraform), monitoring (Prometheus, Grafana).
-*   **Data Science & AI:** Machine learning frameworks (TensorFlow, PyTorch), data processing (Apache Spark, Pandas).
-*   **Development Tools:** Code editors (VS Code), compilers (GCC, LLVM), version control (Git).
+*   **Operating Systems & Core Infrastructure:** Linux, Android, FreeBSD, Apache HTTP Server, nginx.
+*   **Development Tools & Languages:** Python, JavaScript (Node.js), Ruby, Git, VS Code, Eclipse.
+*   **Databases & Data Technologies:** PostgreSQL, MySQL, MongoDB, Redis, Apache Hadoop, Elasticsearch.
+*   **Cloud & DevOps:** Kubernetes, Docker, Terraform, Ansible, Prometheus.
+*   **End-User Applications:** Mozilla Firefox, LibreOffice, VLC media player, Blender (3D graphics), WordPress.
+*   **Libraries & Frameworks:** React, TensorFlow, PyTorch, Bootstrap, jQuery.
 
 ## Debates and Limitations
-
-*   **Sustainability and Funding:** While many projects are volunteer-driven, critical infrastructure often relies on underfunded work. Models for sustainability include corporate sponsorship, foundation support, open core (proprietary add-ons), SaaS offerings, and developer grants.
-*   **Licensing Compliance and Complexity:** Ensuring compliance with license terms, especially copyleft obligations in complex software supply chains, can be challenging and carries legal risk.
-*   **Governance and Inclusivity:** Projects can struggle with toxic communities, burnout among maintainers, and conflicts over governance. Ensuring diverse and inclusive contributor bases remains a challenge.
-*   **Security:** While "many eyes" can improve security, it is not automatic. Critical vulnerabilities can persist unnoticed (e.g., Heartbleed in OpenSSL). The responsibility for timely patching falls on downstream users, leading to risks from unmaintained dependencies.
-*   **Open Source vs. Source-Available:** Some vendors release source code but with licenses that restrict commercial use or rival competition (e.g., "Commons Clause," SSPL). The OSI and community generally do not consider these "open source," labeling them "source-available" or "fauxpen source."
+*   **Sustainability & Funding:** Many critical open source projects are maintained by volunteers or underfunded. Debates continue on sustainable models (e.g., corporate sponsorship, open core, SaaS offerings, donations).
+*   **License Compliance & Complexity:** Ensuring compliance with various open source license obligations (especially copyleft) in complex software supply chains can be challenging and carries legal risk.
+*   **Governance & Inclusivity:** Projects can struggle with toxic communities, burnout of maintainers, and conflicts over governance transitions (e.g., from BDFL to a foundation).
+*   **Security:** While "many eyes" can improve security, it also exposes code to potential malicious actors. Reliance on under-maintained dependencies ("software supply chain risk") is a major concern.
+*   **Open Source vs. Source-Available:** Some licenses provide access to source code but impose restrictions (e.g., on commercial use or SaaS offerings) that violate the OSI definition, leading to debates about terminology and the spirit of "openness."
+*   **Corporate Co-option:** Tensions can arise between corporate interests (which may prioritize features beneficial to their products) and the broader community's needs.
 
 ## Related Entries
 - [[Free Software]]
 - [[Software Licensing]]
 - [[Git]]
 - [[Linux]]
-- [[GitHub]]
-- [[Software Development Lifecycle]]
+- [[Kubernetes]]
+- [[Software Supply Chain]]
 
 ## Reference Leads
-- Needs more sources: Specific historical timelines for key projects (e.g., Apache web server, Mozilla Firefox), quantitative data on open source adoption in enterprise, detailed case studies on project governance transitions, and academic literature on the economics of open source sustainability. Suggested source categories: OSI and FSF archives, foundation annual reports, peer-reviewed studies in software engineering or economics journals.
+- Needs more sources
+  *   **Primary Definitions:** The Open Source Initiative (OSI) website and the Free Software Foundation (FSF) website.
+  *   **Historical Accounts:** Books and essays on the history of free and open source software (e.g., "The Cathedral and the Bazaar" by Eric S. Raymond).
+  *   **Legal Resources:** Websites of open source legal experts or foundations (e.g., Software Freedom Law Center).
+  *   **Community Studies:** Academic papers and articles on open source governance, sustainability, and security from conferences like FOSDEM or academic journals.
