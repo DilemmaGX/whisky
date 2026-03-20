@@ -57,6 +57,91 @@ python -m whisky.cli run --repo-root . --issue-json issue.local.json
 2. Ensure GitHub Actions are enabled.
 3. For site publishing, set **Settings -> Pages -> Build and deployment -> Source** to **GitHub Actions**.
 
+## Issue interaction guide
+
+This project is issue-driven. A well-structured issue gives better drafts and fewer review rounds.
+
+### 1) Choose the right issue template
+
+- **Wiki Entry Request**: use this for new or updated wiki pages.
+- **Bug Report**: use this for pipeline/CLI/workflow problems.
+- Blank issues are disabled to keep automation stable.
+
+### 2) Recommended wiki request format
+
+When opening **Wiki Entry Request**, provide:
+
+- **Topic**: one clear title (for example: `Open Source`)
+- **Entry type**: `concept`, `technology`, `biography`, or `general`
+- **Scope and required sections**: must-have sections and exclusions
+- **Source hints**: official docs, standards, reports, or trusted references
+
+### 3) Label and triage behavior
+
+- `issue-triage.yml` automatically applies `needs-triage`.
+- Wiki-like issues are additionally labeled `wiki-entry`.
+- `issue-to-wiki-pr.yml` runs on:
+  - manual dispatch, or
+  - `labeled` when the label is `wiki-entry`, or
+  - `reopened` when `wiki-entry` already exists.
+- This reduces duplicate runs from frequent issue edits.
+
+### 3.1) Duplicate run prevention
+
+- Both issue workflows use per-issue concurrency groups.
+- Newer runs cancel older in-progress runs for the same issue.
+- Editing issue text no longer triggers extra generation runs.
+
+### 3.2) PR creation permissions
+
+If `generate-wiki-pr` fails with:
+`GitHub Actions is not permitted to create or approve pull requests`
+
+Use one of these fixes:
+
+1. Enable repository setting:
+   - **Settings -> Actions -> General -> Workflow permissions**
+   - Enable **Allow GitHub Actions to create and approve pull requests**
+2. Or set a token secret named `WHISKY_PR_TOKEN` with repository write access.
+
+The workflow automatically uses `WHISKY_PR_TOKEN` when present, otherwise falls back to `GITHUB_TOKEN`.
+
+### 4) End-to-end issue lifecycle
+
+1. You open a **Wiki Entry Request** issue.
+2. Triage workflow adds labels.
+3. Multi-agent pipeline classifies and drafts content.
+4. A PR is created on an `auto/wiki-<issue_number>` branch.
+5. Humans review factual quality and formatting.
+6. After merge, `deploy-pages.yml` publishes to GitHub Pages.
+
+### 5) How to improve draft quality
+
+- Put hard constraints in the issue body (required sections, style limits, banned claims).
+- Add links for high-risk factual areas.
+- Explicitly list "out of scope" items to avoid over-generation.
+- If the first draft is weak, update the same issue with concrete revision points.
+
+### 6) Local issue simulation
+
+You can test issue interaction locally before creating a real issue:
+
+```bash
+python -m whisky.cli run --repo-root . --issue-json issue.local.json
+```
+
+Minimal `issue.local.json` shape:
+
+```json
+{
+  "number": 123,
+  "title": "Wiki entry request: Open Source",
+  "body": "Include definition, license families, governance, and limitations.",
+  "labels": ["wiki-entry", "documentation"],
+  "url": "https://github.com/DilemmaGX/whisky/issues/123"
+}
+```
+
 ## Agent roles
 
 - Orchestrator: routing and workflow control

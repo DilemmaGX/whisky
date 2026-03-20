@@ -4,9 +4,13 @@ on:
   issues:
     types:
       - opened
-      - edited
       - reopened
+      - labeled
   workflow_dispatch:
+
+concurrency:
+  group: issue-to-wiki-pr-${{ github.event.issue.number || github.run_id }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -18,11 +22,17 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' ||
       (
+        github.event_name == 'issues' &&
         github.event.issue.state == 'open' &&
         (
-          contains(join(github.event.issue.labels.*.name, ','), 'wiki-entry') ||
-          contains(github.event.issue.title, 'Wiki') ||
-          contains(github.event.issue.title, 'wiki')
+          (
+            github.event.action == 'labeled' &&
+            github.event.label.name == 'wiki-entry'
+          ) ||
+          (
+            github.event.action == 'reopened' &&
+            contains(join(github.event.issue.labels.*.name, ','), 'wiki-entry')
+          )
         )
       )
     runs-on: ubuntu-latest
@@ -56,7 +66,7 @@ jobs:
         if: steps.pipeline.outputs.should_generate == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WHISKY_PR_TOKEN != '' && secrets.WHISKY_PR_TOKEN || secrets.GITHUB_TOKEN }}
           commit-message: "wiki: auto-generate entry for issue #${{ steps.pipeline.outputs.issue_number }}"
           title: "wiki: ${{ steps.pipeline.outputs.topic }} (from issue #${{ steps.pipeline.outputs.issue_number }})"
           body: |
@@ -68,3 +78,8 @@ jobs:
             Please review factual accuracy before merge.
           branch: "auto/wiki-${{ steps.pipeline.outputs.issue_number }}"
           delete-branch: true
+
+      - name: Explain PR permission fix
+        if: failure() && steps.pipeline.outputs.should_generate == 'true'
+        run: |
+          echo "::error::Pull request creation failed. Enable 'Allow GitHub Actions to create and approve pull requests' in repository settings, or set a WHISKY_PR_TOKEN secret with repository write access."
