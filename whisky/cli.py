@@ -9,6 +9,7 @@ from .collab_protocol import build_structured_task_format
 from .issue_parser import issue_from_event, issue_from_json
 from .logging_utils import build_logger, sanitize_secret
 from .pipeline import run_pipeline
+from .site_dev import run_local_dev_server
 
 
 def _write_outputs(data: dict) -> None:
@@ -92,6 +93,11 @@ def cmd_assist_protocol(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_dev_serve(args: argparse.Namespace) -> int:
+    repo_root = Path(args.repo_root).resolve()
+    return run_local_dev_server(repo_root)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="whisky")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -122,6 +128,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     protocol = assist_sub.add_parser("protocol")
     protocol.set_defaults(func=cmd_assist_protocol)
+
+    dev = sub.add_parser("dev")
+    dev_sub = dev.add_subparsers(dest="dev_command", required=True)
+    serve = dev_sub.add_parser("serve")
+    serve.add_argument("--repo-root", default=".")
+    serve.set_defaults(func=cmd_dev_serve)
     return parser
 
 

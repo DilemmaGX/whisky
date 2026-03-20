@@ -8,3 +8,7 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+.quartz-dev/
+.quartz-tmp/
+node_modules/
+npm-debug.log*

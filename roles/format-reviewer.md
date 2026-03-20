@@ -9,6 +9,7 @@ Ensure each draft follows Obsidian Markdown conventions for searchability, linki
 - Lists, blockquotes, and code fences are properly closed.
 - Internal links `[[...]]` follow valid syntax.
 - Paragraph length remains readable.
+- External links in `## References` are valid and non-placeholder.
 
 ## Output Contract
 Return JSON only:

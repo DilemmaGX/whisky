@@ -25,5 +25,6 @@ status: draft
 - [[Person A]]
 - [[Organization B]]
 
-## Reference Leads
+## References
+- [Reference Title](https://example.org) — why it is relevant
 - Needs more sources

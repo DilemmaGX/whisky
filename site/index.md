@@ -4,8 +4,9 @@ Intelligent multi-agent wiki production for Obsidian and GitHub Pages.
 
 ## Start Here
 
-- [[wiki/open-source|Sample Entry: Open Source]]
-- [[wiki/markdown|Sample Entry: Markdown]]
+- [[wiki/index|Wiki Index]]
+- [[wiki/concepts/open-source|Sample Entry: Open Source]]
+- [[wiki/technologies/markdown|Sample Entry: Markdown]]
 
 ## Workflow
 
@@ -27,3 +28,4 @@ Intelligent multi-agent wiki production for Obsidian and GitHub Pages.
 - Supports `create`, `update`, and `remake` task operations
 - Supports multi-entry execution in a single issue
 - Supports structured JSON planning blocks for precise collaboration
+- Enforces reachable references to reduce broken links and fabricated citations

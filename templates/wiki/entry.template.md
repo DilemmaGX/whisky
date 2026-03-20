@@ -18,9 +18,14 @@ status: draft
 
 ## Debates and Limitations
 
+## Evidence Notes
+- Key claims requiring sources:
+- High-risk claims to avoid without evidence:
+
 ## Related Entries
 - [[Related Entry A]]
 - [[Related Entry B]]
 
-## Reference Leads
+## References
+- [Reference Title](https://example.org) — why it is relevant
 - Needs more sources

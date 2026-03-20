@@ -22,10 +22,13 @@ status: draft
 
 ## Practical Guidance
 
+## Compatibility and Versioning
+
 ## Related Entries
 - [[Protocol A]]
 - [[Tool B]]
 
-## Reference Leads
+## References
+- [Reference Title](https://example.org) — why it is relevant
 - Official documentation
 - Needs more sources

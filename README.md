@@ -10,6 +10,7 @@ Repository: `github.com/DilemmaGX/whisky`
 - Plans one or many entry tasks from a single issue
 - Collects structured research packets with references
 - Generates structured wiki drafts with operation support (`create`, `update`, `remake`)
+- Verifies external references and drops unreachable links
 - Runs content and format review agents
 - Revises once when review feedback fails
 - Writes output to `wiki/*.md`
@@ -57,6 +58,16 @@ python -m whisky.cli run --repo-root . --issue-json issue.local.json
 
 4. Generated output appears in `wiki/`.
 
+### Local dev server
+
+Start a local Quartz development server from repository content:
+
+```bash
+python -m whisky.cli dev serve --repo-root .
+```
+
+This command prepares an isolated `.quartz-dev` workspace, syncs `site/` and `wiki/`, then runs `quartz build --serve`.
+
 ## GitHub setup
 
 1. Add repository secret:
@@ -85,6 +96,7 @@ When opening **Wiki Entry Request**, provide:
 - **Scope and required sections**: must-have sections and exclusions
 - **Source hints**: official docs, standards, reports, or trusted references
 - **Structured multi-entry tasks (JSON)** when one issue should generate multiple entries
+- **Reference quality constraints** (trusted domains, required source categories, or strict evidence rules)
 
 ### 3) Label and triage behavior
 
@@ -123,9 +135,10 @@ The workflow automatically uses `WHISKY_PR_TOKEN` when present, otherwise falls 
 3. Multi-agent pipeline classifies and drafts content.
 4. Planner creates one or many entry tasks.
 5. Research collector builds references for each entry.
-6. A PR is created on an `auto/wiki-<issue_number>` branch.
-7. Humans review factual quality and formatting.
-8. After merge, `deploy-pages.yml` publishes to GitHub Pages.
+6. Reference guard removes unreachable links and enforces a clean references section.
+7. A PR is created on an `auto/wiki-<issue_number>` branch.
+8. Humans review factual quality and formatting.
+9. After merge, `deploy-pages.yml` publishes to GitHub Pages.
 
 ### 5) How to improve draft quality
 
@@ -160,6 +173,7 @@ Minimal `issue.local.json` shape:
 - Issue Classifier: request detection and topic extraction
 - Task Planner: converts one issue into a flexible task graph
 - Research Collector: gathers source-ready reference packets
+- Reference Curator: enforces valid, traceable references in final output
 - Wiki Writer: draft generation
 - Content Reviewer: factual and structural checks
 - Format Reviewer: Obsidian Markdown checks

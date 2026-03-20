@@ -9,8 +9,15 @@ def slugify_title(value: str) -> str:
     return cleaned or "untitled-entry"
 
 
-def build_wiki_path(wiki_root: Path, topic: str) -> Path:
-    return wiki_root / f"{slugify_title(topic)}.md"
+def build_wiki_path(wiki_root: Path, topic: str, entry_type: str = "general") -> Path:
+    folder_map = {
+        "concept": "concepts",
+        "technology": "technologies",
+        "biography": "biographies",
+        "general": "entries",
+    }
+    folder = folder_map.get(entry_type, "entries")
+    return wiki_root / folder / f"{slugify_title(topic)}.md"
 
 
 def ensure_obsidian_frontmatter(content: str, topic: str) -> str:

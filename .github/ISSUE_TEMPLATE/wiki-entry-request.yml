@@ -92,6 +92,14 @@ body:
         }
     validations:
       required: false
+  - type: textarea
+    id: reference_policy
+    attributes:
+      label: Reference policy
+      description: Define allowed domains, forbidden source types, and evidence quality constraints.
+      placeholder: Prefer official docs and standards bodies. Exclude AI-generated mirror sites.
+    validations:
+      required: false
   - type: checkboxes
     id: confirmations
     attributes:

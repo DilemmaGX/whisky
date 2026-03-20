@@ -15,6 +15,7 @@ from .deepseek_client import DeepSeekClient
 from .editor_api import WikiEditorAPI
 from .models import EntryOutput, EntryTask, IssueContext, PipelineResult, PlanResult, ResearchPacket, ResearchTask
 from .obsidian import build_wiki_path, ensure_obsidian_frontmatter
+from .reference_guard import filter_reachable_references, normalize_references_section
 
 
 def _select_template(task: EntryTask, templates_root: Path) -> str:
@@ -84,15 +85,6 @@ def _fallback_draft(task: EntryTask, template_text: str, existing_content: str) 
     return base + extra
 
 
-def _append_references(normalized: str, research_packet: ResearchPacket) -> str:
-    if not research_packet.items:
-        return normalized
-    refs = "\n".join(f"- [{item.title}]({item.url}) — {item.relevance}" for item in research_packet.items)
-    if "## References" in normalized:
-        return normalized.rstrip() + "\n" + refs + "\n"
-    return normalized.rstrip() + "\n\n## References\n\n" + refs + "\n"
-
-
 def _generate_single_entry(
     issue: IssueContext,
     task: EntryTask,
@@ -104,12 +96,13 @@ def _generate_single_entry(
     editor_api: WikiEditorAPI,
 ) -> EntryOutput:
     template_text = _select_template(task, config.templates_root)
-    path = build_wiki_path(config.wiki_root, task.topic)
+    path = build_wiki_path(config.wiki_root, task.topic, task.entry_type)
     existing_content = path.read_text(encoding="utf-8") if path.exists() else ""
     try:
         research_packet = researcher.run(task)
     except Exception:
         research_packet = _fallback_research_packet(task)
+    research_packet = filter_reachable_references(research_packet)
     obsidian_guide = _load_obsidian_guide(config.roles_root)
     enriched_scope = task.scope.strip()
     if task.related_entries:
@@ -164,7 +157,7 @@ def _generate_single_entry(
             draft = _fallback_draft(task, template_text, existing_content)
 
     normalized = ensure_obsidian_frontmatter(draft, task.topic)
-    normalized = _append_references(normalized, research_packet)
+    normalized = normalize_references_section(normalized, research_packet)
     invalid_links = editor_api.validate_internal_links(normalized)
     if invalid_links:
         normalized = normalized.rstrip() + "\n\n## Links to Fix\n\n" + "\n".join(f"- [[{ref}]]" for ref in invalid_links) + "\n"
