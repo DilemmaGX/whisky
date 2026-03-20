@@ -56,6 +56,7 @@ python -m whisky.cli run --repo-root . --issue-json issue.local.json
    - `DEEPSEEK_API_KEY`
 2. Ensure GitHub Actions are enabled.
 3. For site publishing, set **Settings -> Pages -> Build and deployment -> Source** to **GitHub Actions**.
+4. If `Deploy Obsidian Vault to GitHub Pages` fails with `npm ERR! EBADENGINE`, ensure workflow Node version is `22` or newer.
 
 ## Issue interaction guide
 
