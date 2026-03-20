@@ -1,0 +1,36 @@
+name: Issue Triage
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  label-wiki-requests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect wiki-style issue and apply labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue
+            const text = `${issue.title}\n${issue.body || ""}`.toLowerCase()
+            const keywordHit = /(wiki|encyclopedia|knowledge base|entry request|create wiki)/.test(text)
+            const labels = issue.labels.map((l) => l.name)
+            const toAdd = []
+            if (keywordHit && !labels.includes("wiki-entry")) toAdd.push("wiki-entry")
+            if (!labels.includes("needs-triage")) toAdd.push("needs-triage")
+            if (toAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: toAdd
+              })
+            }

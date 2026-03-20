@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whisky"
+version = "0.1.0"
+description = "Multi-agent wiki automation with DeepSeek"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["whisky", "whisky.agents"]

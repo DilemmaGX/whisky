@@ -1,0 +1,10 @@
+API_KEY
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.pyo
+*.pyd
+dist/
+build/
+*.egg-info/

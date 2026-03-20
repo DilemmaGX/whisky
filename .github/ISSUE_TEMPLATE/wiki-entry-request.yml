@@ -1,0 +1,55 @@
+name: Wiki Entry Request
+description: Request a new or updated wiki article for automated draft generation.
+title: "Wiki entry request: "
+labels:
+  - wiki-entry
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit a complete request for automated wiki generation.
+  - type: input
+    id: topic
+    attributes:
+      label: Topic
+      description: Main wiki topic title.
+      placeholder: Open Source
+    validations:
+      required: true
+  - type: dropdown
+    id: entry_type
+    attributes:
+      label: Entry type
+      options:
+        - concept
+        - technology
+        - biography
+        - general
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and required sections
+      description: List must-have sections, boundaries, or exclusions.
+      placeholder: Include history, licenses, governance models, and practical adoption patterns.
+    validations:
+      required: true
+  - type: textarea
+    id: source_hints
+    attributes:
+      label: Source hints
+      description: Add links or source categories to improve accuracy.
+      placeholder: Official docs, standards bodies, foundation reports, peer-reviewed papers.
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I confirm this is a wiki content request.
+          required: true
+        - label: I understand output is a draft and requires human review before merge.
+          required: true

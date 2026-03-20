@@ -1,0 +1,74 @@
+name: Deploy Obsidian Vault to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout vault
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Clone Quartz
+        run: git clone --depth 1 --branch v4 https://github.com/jackyzha0/quartz.git quartz
+
+      - name: Copy vault into Quartz content
+        run: |
+          rsync -av --delete \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.obsidian/' \
+            --exclude 'quartz/' \
+            ./ quartz/content/
+
+      - name: Configure Quartz
+        env:
+          QUARTZ_BASE_URL: ${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          QUARTZ_PAGE_TITLE: ${{ github.event.repository.name }}
+        run: |
+          sed -i "s|baseUrl: \".*\"|baseUrl: \"${QUARTZ_BASE_URL}\"|g" quartz/quartz.config.ts
+          sed -i "s|pageTitle: \".*\"|pageTitle: \"${QUARTZ_PAGE_TITLE}\"|g" quartz/quartz.config.ts
+
+      - name: Build site
+        run: |
+          cd quartz
+          npm ci
+          npx quartz build
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: quartz/public
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

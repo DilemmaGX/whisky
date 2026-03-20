@@ -1,0 +1,228 @@
+{
+  "main": {
+    "id": "bcfabfeaff5bb133",
+    "type": "split",
+    "children": [
+      {
+        "id": "2eaa828020986ea9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6dee2487a3d59643",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Welcome.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Welcome"
+            }
+          }
+        ]
+      },
+      {
+        "id": "2e835d043f01441f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c0422135591bb1c0",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f77b2214f3a8c419",
+    "type": "split",
+    "children": [
+      {
+        "id": "d1b3e07d787e2237",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c92572c4ce9631e2",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "443d4a6566426be8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "c9f55f276e27d85d",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5cc34baa73dfdb89",
+    "type": "split",
+    "children": [
+      {
+        "id": "4b7e5f0b3e444772",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d5b8b4df60a40a29",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "5f5c032a806438f6",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "260b1bf64d4fac7a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "e95d30636abdc2ff",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "302f5fe2a6e48d4d",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "6dee2487a3d59643",
+  "lastOpenFiles": [
+    "wiki/open-source.md",
+    "wiki",
+    "whisky/__pycache__/obsidian.cpython-312.pyc.2281273712112",
+    "whisky/__pycache__/editor_api.cpython-312.pyc.2281273711776",
+    "whisky/agents/__pycache__/reviewers.cpython-312.pyc.2281273712784",
+    "whisky/agents/__pycache__/writer.cpython-312.pyc.2281241936704",
+    "whisky/__pycache__/deepseek_client.cpython-312.pyc.2281241940512",
+    "whisky/agents/__pycache__/classifier.cpython-312.pyc.2281241936256",
+    "whisky/__pycache__/pipeline.cpython-312.pyc.2281241430032",
+    "whisky/__pycache__/logging_utils.cpython-312.pyc.2281240753776",
+    "examples/open-source-issue.json",
+    "README.md",
+    "roles/project-structure.md",
+    "roles/format-reviewer.md",
+    "roles/content-reviewer.md",
+    "roles/wiki-writer.md",
+    "roles/issue-classifier.md",
+    "roles/orchestrator.md",
+    "templates/wiki/concept.template.md",
+    "templates/wiki/technology.template.md",
+    "templates/wiki/biography.template.md",
+    "templates/wiki/entry.template.md",
+    "Welcome.md"
+  ]
+}

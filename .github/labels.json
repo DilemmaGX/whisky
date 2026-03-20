@@ -1,0 +1,8 @@
+[
+  { "name": "wiki-entry", "color": "0e8a16", "description": "Issue requests a wiki entry draft" },
+  { "name": "needs-triage", "color": "d4c5f9", "description": "Issue requires triage" },
+  { "name": "automation", "color": "0052cc", "description": "Automation, workflow, or CI related changes" },
+  { "name": "templates", "color": "1d76db", "description": "Issue or content template changes" },
+  { "name": "documentation", "color": "0075ca", "description": "Documentation improvements" },
+  { "name": "bug", "color": "d73a4a", "description": "Bug report" }
+]
