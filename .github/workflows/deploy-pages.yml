@@ -31,14 +31,24 @@ jobs:
       - name: Clone Quartz
         run: git clone --depth 1 --branch v4 https://github.com/jackyzha0/quartz.git quartz
 
-      - name: Copy vault into Quartz content
+      - name: Prepare publish content
         run: |
-          rsync -av --delete \
-            --exclude '.git/' \
-            --exclude '.github/' \
-            --exclude '.obsidian/' \
-            --exclude 'quartz/' \
-            ./ quartz/content/
+          rm -rf quartz/content/*
+          mkdir -p quartz/content
+
+          if [ -f "Welcome.md" ]; then
+            cp Welcome.md quartz/content/index.md
+          else
+            cat > quartz/content/index.md <<'EOF'
+            # whisky
+
+            Welcome to whisky.
+            EOF
+          fi
+
+          if [ -d "wiki" ]; then
+            rsync -av --delete wiki/ quartz/content/wiki/
+          fi
 
       - name: Configure Quartz
         env:
