@@ -1,31 +1,48 @@
-# whisky
+---
+title: Home
+tags:
+  - home
+  - whisky
+status: stable
+---
 
-Intelligent multi-agent wiki production for Obsidian and GitHub Pages.
+# Home
 
-## Start Here
+whisky is built to turn issue-driven knowledge requests into maintainable, reviewable, and reference-safe wiki pages for Obsidian and GitHub Pages.
+
+## Why this project exists
+
+- Documentation requests often arrive in fragmented issue threads.
+- Teams need a consistent way to transform those requests into structured wiki pages.
+- Generated content must stay review-friendly, link-rich, and reference-valid over time.
+
+## What whisky automates
+
+1. Accepts one issue with one or many entry tasks
+2. Plans a task graph with operation mode (`create`, `update`, `remake`)
+3. Collects and validates references
+4. Generates and reviews pages
+5. Updates wiki indexes and cross-page navigation
+6. Opens a pull request for human approval
+
+## Contributing
+
+1. Open a `Wiki Entry Request` or `Bug Report` issue.
+2. For multi-page work, include a structured task JSON block.
+3. Add reference policy constraints if your domain requires stricter sources.
+4. Review generated pull requests for factual correctness and style consistency.
+5. Improve templates and role specs when recurring quality gaps are identified.
+
+## Start exploring
 
 - [[wiki/index|Wiki Index]]
-- [[wiki/concepts/open-source|Sample Entry: Open Source]]
-- [[wiki/technologies/markdown|Sample Entry: Markdown]]
+- [[wiki/concepts/index|Concepts]]
+- [[wiki/technologies/index|Technologies]]
 
-## Workflow
+## Local development
 
-1. Create a `Wiki Entry Request` issue
-2. Planner agent decomposes tasks
-3. Research collector compiles references
-4. Writer and reviewers generate final drafts
-5. Pull request is opened for human merge
+Run a local test server:
 
-## Advanced Obsidian Usage
-
-- Use internal links to build graph neighborhoods
-- Keep canonical names stable across entries
-- Add concise, link-rich related-entry sections
-- Preserve references for every factual cluster
-
-## Operational Notes
-
-- Supports `create`, `update`, and `remake` task operations
-- Supports multi-entry execution in a single issue
-- Supports structured JSON planning blocks for precise collaboration
-- Enforces reachable references to reduce broken links and fabricated citations
+```bash
+python -m whisky.cli dev serve --repo-root .
+```

@@ -32,7 +32,9 @@ body:
     id: entry_type
     attributes:
       label: Entry type
+      description: Choose auto to let planner classify each task.
       options:
+        - auto
         - concept
         - technology
         - biography
@@ -67,7 +69,7 @@ body:
             {
               "topic": "Open Source",
               "operation": "create",
-              "entry_type": "concept",
+              "entry_type": "auto",
               "scope": "Definition, history, licenses, and governance.",
               "source_hints": ["OSI", "Linux Foundation"],
               "related_entries": ["Software Licensing"],
@@ -82,7 +84,7 @@ body:
             {
               "topic": "Software Licensing",
               "operation": "update",
-              "entry_type": "technology",
+              "entry_type": "auto",
               "scope": "Refresh with modern compliance and tooling.",
               "source_hints": ["SPDX", "official docs"],
               "related_entries": ["Open Source"],

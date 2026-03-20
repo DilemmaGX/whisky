@@ -21,9 +21,10 @@ class TaskPlannerAgent:
         system_prompt = (
             "You are a wiki task planner. Build a flexible execution plan for one or many wiki entries. "
             "Support operation values: create, update, remake. "
+            "Support entry_type values: auto, concept, technology, biography, general. "
             "Use only strict JSON in this format: "
             '{"should_generate": boolean, "global_summary": string, "tasks": ['
-            '{"topic": string, "operation": "create|update|remake", "entry_type": "concept|technology|biography|general", '
+            '{"topic": string, "operation": "create|update|remake", "entry_type": "auto|concept|technology|biography|general", '
             '"scope": string, "source_hints": [string], "related_entries": [string], '
             '"research_tasks": [{"query": string, "purpose": string, "source_hints": [string]}]}]}'
         )
@@ -56,9 +57,9 @@ class TaskPlannerAgent:
             operation = str(item.get("operation", "create")).strip().lower()
             if operation not in {"create", "update", "remake"}:
                 operation = "create"
-            entry_type = str(item.get("entry_type", "general")).strip().lower()
-            if entry_type not in {"concept", "technology", "biography", "general"}:
-                entry_type = "general"
+            entry_type = str(item.get("entry_type", "auto")).strip().lower()
+            if entry_type not in {"auto", "concept", "technology", "biography", "general"}:
+                entry_type = "auto"
             tasks.append(
                 EntryTask(
                     topic=topic,

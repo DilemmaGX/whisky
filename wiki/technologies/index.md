@@ -8,5 +8,5 @@ status: stable
 
 # Technologies
 
+- [[wiki/technologies/github|Github]]
 - [[wiki/technologies/markdown|Markdown]]
-- [[wiki/technologies/github|GitHub]]

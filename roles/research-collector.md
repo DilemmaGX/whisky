@@ -19,3 +19,5 @@ Collect concise, referenceable evidence for each planned wiki task and provide s
 - Do not include unverifiable URLs
 - Avoid duplicate links with different titles
 - Ensure each reference has a clear relevance statement
+- Prefer references that can be resolved without authentication
+- Reject placeholder or non-HTTP URLs

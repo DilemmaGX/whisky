@@ -17,5 +17,5 @@ status: stable
 ## Start Reading
 - [[wiki/concepts/open-source|Open Source]]
 - [[wiki/concepts/software-licensing|Software Licensing]]
+- [[wiki/technologies/github|Github]]
 - [[wiki/technologies/markdown|Markdown]]
-- [[wiki/technologies/github|GitHub]]

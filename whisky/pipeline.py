@@ -16,6 +16,8 @@ from .editor_api import WikiEditorAPI
 from .models import EntryOutput, EntryTask, IssueContext, PipelineResult, PlanResult, ResearchPacket, ResearchTask
 from .obsidian import build_wiki_path, ensure_obsidian_frontmatter
 from .reference_guard import filter_reachable_references, normalize_references_section
+from .wiki_catalog import build_catalog_snapshot, infer_entry_type_auto
+from .wiki_indexer import rebuild_all_indexes
 
 
 def _select_template(task: EntryTask, templates_root: Path) -> str:
@@ -57,7 +59,7 @@ def _fallback_plan(issue: IssueContext) -> PlanResult:
         EntryTask(
             topic=topic,
             operation="create",
-            entry_type="general",
+            entry_type="auto",
             scope="Provide definition, background, core concepts, practical usage, limitations, and references.",
             source_hints=[],
             related_entries=[],
@@ -89,34 +91,48 @@ def _generate_single_entry(
     issue: IssueContext,
     task: EntryTask,
     config: AppConfig,
+    wiki_snapshot: str,
     writer: WikiWriterAgent,
     researcher: ResearchCollectorAgent,
     content_reviewer: ContentReviewerAgent,
     format_reviewer: FormatReviewerAgent,
     editor_api: WikiEditorAPI,
 ) -> EntryOutput:
-    template_text = _select_template(task, config.templates_root)
-    path = build_wiki_path(config.wiki_root, task.topic, task.entry_type)
-    existing_content = path.read_text(encoding="utf-8") if path.exists() else ""
-    try:
-        research_packet = researcher.run(task)
-    except Exception:
-        research_packet = _fallback_research_packet(task)
-    research_packet = filter_reachable_references(research_packet)
-    obsidian_guide = _load_obsidian_guide(config.roles_root)
-    enriched_scope = task.scope.strip()
-    if task.related_entries:
-        enriched_scope += f"\n\nRelated entries to link: {', '.join(task.related_entries)}"
-    if task.research_tasks:
-        enriched_scope += "\n\nStructured research plan:\n- " + task_to_protocol_block(task)
-    enriched_task = EntryTask(
+    resolved_entry_type = task.entry_type
+    if resolved_entry_type == "auto":
+        resolved_entry_type = infer_entry_type_auto(task.topic, wiki_snapshot)
+    normalized_task = EntryTask(
         topic=task.topic,
         operation=task.operation,
-        entry_type=task.entry_type,
-        scope=enriched_scope,
+        entry_type=resolved_entry_type,
+        scope=task.scope,
         source_hints=task.source_hints,
         related_entries=task.related_entries,
         research_tasks=task.research_tasks,
+    )
+    template_text = _select_template(normalized_task, config.templates_root)
+    path = build_wiki_path(config.wiki_root, normalized_task.topic, normalized_task.entry_type)
+    existing_content = path.read_text(encoding="utf-8") if path.exists() else ""
+    try:
+        research_packet = researcher.run(normalized_task)
+    except Exception:
+        research_packet = _fallback_research_packet(normalized_task)
+    research_packet = filter_reachable_references(research_packet)
+    obsidian_guide = _load_obsidian_guide(config.roles_root)
+    enriched_scope = normalized_task.scope.strip()
+    if normalized_task.related_entries:
+        enriched_scope += f"\n\nRelated entries to link: {', '.join(normalized_task.related_entries)}"
+    if normalized_task.research_tasks:
+        enriched_scope += "\n\nStructured research plan:\n- " + task_to_protocol_block(normalized_task)
+    enriched_scope += f"\n\nLive wiki snapshot:\n{wiki_snapshot}"
+    enriched_task = EntryTask(
+        topic=normalized_task.topic,
+        operation=normalized_task.operation,
+        entry_type=normalized_task.entry_type,
+        scope=enriched_scope,
+        source_hints=normalized_task.source_hints,
+        related_entries=normalized_task.related_entries,
+        research_tasks=normalized_task.research_tasks,
     )
     try:
         draft = writer.run(
@@ -128,10 +144,10 @@ def _generate_single_entry(
             existing_content=existing_content,
         )
     except Exception:
-        draft = _fallback_draft(task, template_text, existing_content)
+        draft = _fallback_draft(normalized_task, template_text, existing_content)
     try:
-        content_review = content_reviewer.run(topic=task.topic, markdown_text=draft)
-        format_review = format_reviewer.run(topic=task.topic, markdown_text=draft)
+        content_review = content_reviewer.run(topic=normalized_task.topic, markdown_text=draft)
+        format_review = format_reviewer.run(topic=normalized_task.topic, markdown_text=draft)
     except Exception:
         content_review = type("ReviewState", (), {"passed": True, "feedback": ""})()
         format_review = type("ReviewState", (), {"passed": True, "feedback": ""})()
@@ -154,9 +170,9 @@ def _generate_single_entry(
                 existing_content=existing_content,
             )
         except Exception:
-            draft = _fallback_draft(task, template_text, existing_content)
+            draft = _fallback_draft(normalized_task, template_text, existing_content)
 
-    normalized = ensure_obsidian_frontmatter(draft, task.topic)
+    normalized = ensure_obsidian_frontmatter(draft, normalized_task.topic)
     normalized = normalize_references_section(normalized, research_packet)
     invalid_links = editor_api.validate_internal_links(normalized)
     if invalid_links:
@@ -164,7 +180,7 @@ def _generate_single_entry(
 
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(normalized, encoding="utf-8")
-    return EntryOutput(topic=task.topic, file_path=str(path), operation=task.operation)
+    return EntryOutput(topic=normalized_task.topic, file_path=str(path), operation=normalized_task.operation)
 
 
 def run_pipeline(issue: IssueContext, config: AppConfig) -> PipelineResult:
@@ -205,19 +221,23 @@ def run_pipeline(issue: IssueContext, config: AppConfig) -> PipelineResult:
             summary=plan.global_summary or "Planner produced no actionable wiki tasks.",
         )
 
-    outputs = [
-        _generate_single_entry(
-            issue=issue,
-            task=task,
-            config=config,
-            writer=writer,
-            researcher=researcher,
-            content_reviewer=content_reviewer,
-            format_reviewer=format_reviewer,
-            editor_api=editor_api,
+    outputs = []
+    for task in plan.tasks:
+        wiki_snapshot = build_catalog_snapshot(config.wiki_root)
+        outputs.append(
+            _generate_single_entry(
+                issue=issue,
+                task=task,
+                config=config,
+                wiki_snapshot=wiki_snapshot,
+                writer=writer,
+                researcher=researcher,
+                content_reviewer=content_reviewer,
+                format_reviewer=format_reviewer,
+                editor_api=editor_api,
+            )
         )
-        for task in plan.tasks
-    ]
+    rebuild_all_indexes(config.wiki_root)
     topics = [item.topic for item in outputs]
     file_paths = [item.file_path for item in outputs]
     summary = (

@@ -8,9 +8,11 @@ Repository: `github.com/DilemmaGX/whisky`
 
 - Classifies whether an Issue is a wiki-entry request
 - Plans one or many entry tasks from a single issue
+- Supports `auto` entry-type classification when possible
 - Collects structured research packets with references
 - Generates structured wiki drafts with operation support (`create`, `update`, `remake`)
 - Verifies external references and drops unreachable links
+- Rebuilds wiki indexes automatically after generation
 - Runs content and format review agents
 - Revises once when review feedback fails
 - Writes output to `wiki/*.md`
@@ -28,6 +30,10 @@ Repository: `github.com/DilemmaGX/whisky`
 - `site/`: custom homepage and site-level pages
 - `templates/wiki/`: article templates
 - `wiki/`: generated entries
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE).
 
 ## Security model
 
@@ -92,6 +98,7 @@ When opening **Wiki Entry Request**, provide:
 
 - **Topic**: one clear title (for example: `Open Source`)
 - **Entry type**: `concept`, `technology`, `biography`, or `general`
+- **Entry type** can be `auto` to let the planner infer the best category
 - **Operation**: `create`, `update`, or `remake`
 - **Scope and required sections**: must-have sections and exclusions
 - **Source hints**: official docs, standards, reports, or trusted references

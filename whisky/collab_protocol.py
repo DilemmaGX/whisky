@@ -9,7 +9,7 @@ def build_structured_task_format() -> str:
             {
                 "topic": "Open Source",
                 "operation": "create",
-                "entry_type": "concept",
+                "entry_type": "auto",
                 "scope": "Definition, history, licenses, governance, and limitations.",
                 "source_hints": ["OSI", "FSF", "Linux Foundation"],
                 "related_entries": ["Software Licensing", "Free Software"],
