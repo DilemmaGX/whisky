@@ -54,7 +54,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.pipeline.outputs.should_generate == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "wiki: auto-generate entry for issue #${{ steps.pipeline.outputs.issue_number }}"
